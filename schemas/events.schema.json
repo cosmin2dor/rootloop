@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://rootloop.local/schemas/events.schema.json",
+  "title": "Hydroponic dosing event",
+  "description": "One event from a hydroponic dosing session, discriminated by event_type: 'read' = sensor observation, 'dose' = a dose action. Identical schema for sim and real data; sim-only fields are nullable on real-data rows.",
+  "type": "object",
+  "required": [
+    "ts",
+    "event_type",
+    "ec_observed",
+    "ph_observed",
+    "volume_l",
+    "nutrient_ml",
+    "ph_up_ml",
+    "ph_down_ml",
+    "ph_setpoint",
+    "ph_deadband_low",
+    "ph_deadband_high",
+    "ec_setpoint",
+    "ec_deadband_low",
+    "ec_deadband_high"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp, microsecond precision (RFC 3339)."
+    },
+    "ec_observed": {
+      "type": "number",
+      "description": "mS/cm. What the model sees (post sensor noise)."
+    },
+    "ph_observed": {
+      "type": "number",
+      "description": "pH units."
+    },
+    "volume_l": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Tank volume at this event (liters)."
+    },
+
+    "event_type": {
+      "type": "string",
+      "enum": ["read", "dose"],
+      "description": "'read' = sensor observation only, all *_ml fields are 0. 'dose' = a dose was issued, at least one *_ml field is > 0."
+    },
+
+    "nutrient_ml": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0,
+      "description": "ml of A+B nutrient (paired) dosed in this event. Always 0 when event_type='read'."
+    },
+    "ph_up_ml": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0
+    },
+    "ph_down_ml": {
+      "type": "number",
+      "minimum": 0,
+      "default": 0
+    },
+
+    "ph_setpoint":      { "type": "number" },
+    "ph_deadband_low":  { "type": "number" },
+    "ph_deadband_high": { "type": "number" },
+    "ec_setpoint":      { "type": "number" },
+    "ec_deadband_low":  { "type": "number" },
+    "ec_deadband_high": { "type": "number" }
+  }
+}

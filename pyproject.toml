@@ -1,0 +1,13 @@
+[project]
+name = "rootloop"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "joblib>=1.5.3",
+    "lightgbm>=4.6.0",
+    "numpy>=2.4.4",
+    "scikit-learn>=1.8.0",
+    "torch>=2.11.0",
+]
